@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import Banner from "./banner";
 import Exhibit from "./Exhibit";
+import PacketLatency from "./latency";
 
 
 async function fetchIPAddress() {
@@ -42,8 +43,8 @@ function App() {
             <p> IPv4: {ipData.ipv4} </p>
             <p> IPv6: {ipData.ipv6} </p>
         </Exhibit>
-        <Exhibit name={'abc2'}>
-            <p>This is a child component or content inside the Exhibit component.</p>
+        <Exhibit name={'Latency'}>
+            <PacketLatency />
         </Exhibit>
     </div>
   );
