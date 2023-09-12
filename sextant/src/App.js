@@ -6,10 +6,12 @@ import Exhibit from "./Exhibit";
 
 async function fetchIPAddress() {
     try {
-        const response = await fetch('http://api.ipify.org/?format=json');
-        if (response.ok) {
-            const data = await response.json();
-            return data.ip;
+        const v4_response = await fetch('http://api.ipify.org/?format=json');
+        const v6_response = await fetch('https://api64.ipify.org?format=json');
+        if ( v4_response.ok && v6_response.ok) {
+            const v4_data = await v4_response.json();
+            const v6_data = await v6_response.json();
+            return { ipv4: v4_data.ip, ipv6: v6_data.ip };
         } else {
             console.error("Failed to fetch IP.");
             return null;
@@ -21,7 +23,7 @@ async function fetchIPAddress() {
 }
 
 function App() {
-    const [ip, setIP] = useState('');
+    const [ipData, setIP] = useState({ ipv4: '', ipv6: '' }); // Using an object for state
 
     useEffect(() => {
         (async function() {
@@ -32,11 +34,13 @@ function App() {
         })();
     }, []);
 
+
     return (
     <div className="App">
         <Banner bannerText={'Sextant'}/>
         <Exhibit name={'IP Address'}>
-            <p> IPv4: {ip} </p>
+            <p> IPv4: {ipData.ipv4} </p>
+            <p> IPv6: {ipData.ipv6} </p>
         </Exhibit>
         <Exhibit name={'abc2'}>
             <p>This is a child component or content inside the Exhibit component.</p>
